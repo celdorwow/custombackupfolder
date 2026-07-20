@@ -2,15 +2,12 @@ schema_version = "1.0.0"
 
 id = "custombackupfolder"
 version = "0.1.0"
-name = "CustomBackupFolder"
-tagline = "An addition fo some convenient tools"
-maintainer = "Celdor"
-website = "http://www.github.com/celdorwow/cbf"
-
+name = "Custom Backup Folder"
 type = "add-on"
+tagline = "A few additional tools for better Save Version management"
 blender_version_min = "4.2.0"
 tags = ["System", "3D View"]
+maintainer = "Celdor"
+website = "https://projects.blender.org/FrankWE/custombackupfolder.git"
 license = ["SPDX:GPL-3.0-or-later"]
 
-[permissions]
-files = "Move and maintain Blender's Save Versions"

@@ -3,8 +3,9 @@
 # the Free Software Foundation; either version 3 of the License, or
 # (at your option) any later version.
 #
-# The main purpose and hope behind this small tool is that it will be useful,
-# please note there is no WARRANTY; without even the implied warranty of
+# The main purpose of this piece of software is to improve management of
+# Save Versions which Blender creates anytime a file is saved.
+# Please note there is no WARRANTY; without even the implied warranty of
 # MERCHANTIBILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # General Public License for more details.
 #
@@ -12,15 +13,19 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    'name': 'CustomBackupFolder',
+    'name': 'Custom Backup Folder',
     'author': 'Celdor',
     'description': 'A backup tool with convenient tools',
     'blender': (4, 2, 0),
     'version': (0, 1, 0),
     'location': 'View3D',
-    'wiki_url': 'www.github.com/cledorwow/cbf',
+    'wiki_url': 'https://projects.blender.org/FrankWE/custombackupfolder.git',
     'category': '3D View'
 }
+
+
+ADDON_NAME = bl_info['name']
+ADDON_VERSION = ".".join(map(str, bl_info['version']))
 
 
 from . import addon
@@ -28,9 +33,9 @@ from . import addon
 
 def register():
     addon.register()
-    print("[INFO] Custom Backup Folder v{} registered".format(addon.main.cbf.version2str(bl_info["version"])))
+    print("[INFO] {} v{} registered".format(ADDON_NAME, ADDON_VERSION))
 
 
 def unregister():
     addon.unregister()
-    print("[INFO] Custom Backup Folder v{} unregistered".format(addon.main.cbf.version2str(bl_info["version"])))
+    print("[INFO] {} v{} unregistered".format(ADDON_NAME, ADDON_VERSION))
