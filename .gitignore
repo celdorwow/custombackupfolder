@@ -124,6 +124,21 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# IDEs
+#IDE
 .idea
+.vscode
+.vimrc
+.emacs
+.sublime-settings
 
+# Image processing software
+images/
+*.af
+*.afdesign
+*.afphoto
+*.afpub
+*.psd
+*.ai
+*.indd
+*.kra
+*.xcf
