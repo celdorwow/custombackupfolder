@@ -30,7 +30,7 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-    if handles .post_load_checks not in bpy.app.handlers.load_post:
+    if handles.post_load_checks not in bpy.app.handlers.load_post:
         bpy.app.handlers.load_post.append(handles.post_load_checks)
     if handles.calculate_checksum not in bpy.app.handlers.save_pre:
         bpy.app.handlers.save_pre.append(handles.calculate_checksum)

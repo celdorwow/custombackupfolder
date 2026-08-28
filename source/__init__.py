@@ -17,16 +17,14 @@ bl_info = {
     'author': 'Celdor',
     'description': 'A backup tool with convenient tools',
     'blender': (4, 2, 0),
-    'version': (0, 1, 0),
+    'version': (0, 1, 1),
     'location': 'View3D',
-    'wiki_url': 'https://projects.blender.org/FrankWE/custombackupfolder.git',
     'category': '3D View'
 }
 
 
 ADDON_NAME = bl_info['name']
 ADDON_VERSION = ".".join(map(str, bl_info['version']))
-
 
 from . import addon
 
