@@ -7,6 +7,7 @@ from glob import glob
 from . utils_operators import return_init
 from . utils_file import (
     get_all_save_versions,
+    sort_save_versions,
     rename_copies,
     move_copies,
     is_main_file,
@@ -165,6 +166,9 @@ class VK_EU_CBF_OpenAllFiles(bpy.types.Operator, bpy_extras.io_utils.ImportHelpe
         return inits is not None
 
     def execute(self, context):
+        if bpy.data.is_dirty:
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
+            return {'CANCELLED'}
         bpy.ops.wm.open_mainfile(filepath=self.filepath)
         return {'FINISHED'}
 
@@ -199,7 +203,7 @@ class VK_OT_CBF_OpenPrevious(bpy.types.Operator):
         save_versions = glob(pathname=f"{Path(base_name).stem}.blend[0-9]*", root_dir=path_dir)
         if not save_versions:
             return {'WARNING'}, "No more further Save Version found", {'CANCELLED'}
-        save_versions = sorted(save_versions)
+        save_versions = sort_save_versions(save_versions)
         if is_main_file(inits):
             save_versions.insert(0, base_name)
         i_save_ver = save_versions.index(base_name)
@@ -226,6 +230,9 @@ class VK_OT_CBF_OpenPrevious(bpy.types.Operator):
         if not scene.vk_cbf_prev_exists:
             self.report({'WARNING'}, "The previous Save Version does not exist")
             return {'CANCELLED'}
+        if bpy.data.is_dirty:
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
+            return {'CANCELLED'}
         bpy.ops.wm.open_mainfile(filepath=scene.vk_cbf_path_name)
         return {'FINISHED'}
 
@@ -249,7 +256,7 @@ class VK_OT_CBF_OpenNext(bpy.types.Operator):
         save_versions = glob(pathname=f"{Path(base_name).stem}.blend[0-9]*", root_dir=src_dir)
         if not save_versions:
             return {'WARNING'}, "None of Save Versions found", {'CANCELLED'}
-        save_versions = sorted(save_versions)
+        save_versions = sort_save_versions(save_versions)
         i_save_ver = save_versions.index(base_name)
         if i_save_ver == 0:
             p_next = Path(*Path(src_dir).parts[:-1]) / Path(base_name).with_suffix(".blend")
@@ -274,6 +281,9 @@ class VK_OT_CBF_OpenNext(bpy.types.Operator):
         scene = context.scene
         if not scene.vk_cbf_next_exists:
             self.report({'WARNING'}, "The next Save Version does not exist")
+            return {'CANCELLED'}
+        if bpy.data.is_dirty:
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
             return {'CANCELLED'}
         bpy.ops.wm.open_mainfile(filepath=scene.vk_cbf_path_name)
         return {'FINISHED'}

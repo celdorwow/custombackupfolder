@@ -1,22 +1,20 @@
 # Introduction
-This small tool provides a few improvements to manage Blender’s so-called **Saved Version** files.
+This small tool provides a few improvements for a better management of Blender’s built-in **Saved Versions**.
 
-By default, each time a project file is saved, Blender creates an additional **Saved Version**, which is essentially a copy of the current file saved under a similar name. These files have a distinct extension that ends with a number, which is incremented each time a new **Saved Version** is created.
-
-Blender has a preference setting that controls a number of such files. This addon, however, provides its own preference, which is independent.
+By default, when a project file is saved, Blender creates an additional **Saved Version**, which is essentially a copy of the current file. These files have a distinct extension ening with a number, which is incremented each time a new **Saved Version** is created.
 
 # The problem
-One of the main issues is these files populate the main project folder. With only a single project file, this may not seem to be an issues and might look perfectly fine. However, as soon as artists create multiple backup copies of a project, the main folder will quickly become filled with a large number of files, which makes a bit  more difficult to navigate around the project folder.
+Blender has a preference setting that controls a number of such files. This addon provides an additional option to create these files in a separate folder in roder to reduce unnecessary cluter in the main folder.
 
-This is where this add-on comes in. Its main functionality is to simply move these files to a separate folder and keep consecutive copies right there. Additionally, the add-on provides a few secondary tools to help maintain a backup folder. As en example, when the main project file is changed, Blender does not have any tool to keep integrity of back up files. This addon provides a function to rename all _orphan_ files to bind them back with the project files of a new name.
+Hence, one of the main issues is these files can populate the main project folder very fast. Perhaps with only a single project file, this may not seem an issues. However, as soon multiple copies of a project are created, the folder quickly becomes filled with a large number of files, which personally causes difficulties to navigate around the project folder.
 
-I find this addon useful and I hope it can offer the same QoL improvement to others.
+This addon main functionality is to move all backup files to a separate folder and keep consecutive copies right in there. Additionally, the addon provides a couple of other helpful tools to maintain the backup folder. As en example, when the main project file is changed, Blender does not have any tool to keep integrity of back up files. This addon provides a function to rename all _orphan_ files to bind them back with the project files of a new name.
 
 # Installation
 Simply drag and drop a ZIP archive into the Blender. This will automatically install and enable the addon.
 
 # Usage
-This is a simple tool that automatically moves Save Versions to a separate folder of your choice. It also provides several additional features for managing the folder containing your backup files.
+This is a simple extension to already built-in backup functionality, such that it moves Save Versions to a separate folder of user's choice on each save. It also provides several additional features for managing the folder containing your backup files.
 
 ## Access to the addon
 The addon provides two panels:
@@ -40,10 +38,11 @@ Navigates to the addon preference windows.
 #### Addon Preferences
 - `Save Versions`: Controls a number of backup files created by the Addon
 
-**Please note**, the option _Save Version_ in the main Preferences in section `Save & Load` is required to be set to 1 for the addon to work. The addon manipulate this value when enabled/disabled/installed/uninstalled. **Please do not to change this value when Addon is active.**
+A few notes on `Save Version` in `Save & Load` preference.
+<br />It is required for the addon to work that `Save Version` is greater than 0. **Please do not change this value when Addon is active**. This value is managed by the addon but changed only if the original state was 0. Otherwise, its value remains unchanged.
 
 - `Auto Clean`: Addon will automatically remove extensive **Save Versions** found in the backup folder on next save
-- `Pause`: Simply temporary deactivates addons. **Importantly**, `Save Version` in the main Preferences in section `Save & Load` is temporarily restored. If this value was `0` when addon was installed, none Save Version file would be created.
+- `Pause`: Temporary deactivates the addon. **Importantly**, when addon is paused `Save Version` is temporarily restored. If this value was `0` when addon was installed, Blender does not creates any backup. If the values was positive, Blender will be creating backups in the main project folder.
 
 ### Traverse through existing backups
 - `Previous` and `Next`

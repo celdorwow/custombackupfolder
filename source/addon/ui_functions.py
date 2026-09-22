@@ -7,7 +7,7 @@ def prefs_object():
 
 
 def process_buildin_save_versions(init: bool) -> None:
-    """Process built-in Save Versions for the purpose of the addon
+    """Process built-in Save Versions set and restore the state of built-in Save Versions
     init: bool
         True means addon take over the property. Otherwise, the property is recovered from its original value"""
     prefs = prefs_object()

@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import hashlib
 import typing
@@ -31,6 +32,13 @@ def get_all_save_versions(src_dir: str, backup_dir: str | None=None) -> set:
     if backup_dir:
         output.union(set(get_files(backup_dir)))
     return output
+
+
+def sort_save_versions(save_versions: list) -> list:
+    re_obj = re.compile(r"blend(\d+)$")
+    if save_versions is None:
+        raise ValueError("None of Save Version was found")
+    return sorted(save_versions, key=lambda x: int(re_obj.search(x).group(1)))
 
 
 def make_copies(base_name: str, src_dir: str, backup_dir: str) -> tuple[set[str], str, set[str]]:

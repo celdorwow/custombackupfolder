@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "custombackupfolder"
-version = "0.1.1"
+version = "0.1.2"
 name = "Custom Backup Folder"
 type = "add-on"
 tagline = "A few additional tools for better Save Version management"

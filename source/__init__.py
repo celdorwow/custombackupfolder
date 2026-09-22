@@ -17,7 +17,7 @@ bl_info = {
     'author': 'Celdor',
     'description': 'A backup tool with convenient tools',
     'blender': (4, 2, 0),
-    'version': (0, 1, 1),
+    'version': (0, 1, 2),
     'location': 'View3D',
     'category': '3D View'
 }
