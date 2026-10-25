@@ -26,10 +26,10 @@ def calculate_checksum(_) -> None:
         return None
 
     wm = bpy.types.WindowManager
-    checksums = bpy.context.scene.checksums
+    check_sum = bpy.context.scene.multichoices.check_sum
 
     # Save current file validator
-    wm.fileValidator = FileValidator(blend_path, checksums.check_sum)
+    wm.fileValidator = FileValidator(blend_path, check_sum)
 
 
 @persistent

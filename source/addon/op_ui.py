@@ -5,8 +5,7 @@ from .. import __package__ as base_package
 from .. import ADDON_NAME
 
 
-class VK_ChecksumProperties(bpy.types.PropertyGroup):
-    # Reference
+class VK_MultichoiceProperties(bpy.types.PropertyGroup):
     check_sum: EnumProperty(
         name="Verification method",
         description="Select a backup verification method\n" \
@@ -15,6 +14,17 @@ class VK_ChecksumProperties(bpy.types.PropertyGroup):
             ("FILESIZE", "File Size", ""),
             ("MD5", "Hash File MD5", ""),
             ("SHA1", "Hash File SHA1", ""),
+        ],
+    )
+
+    guard_backup: EnumProperty(
+        name="Guard backup",
+        description="This option afect Blender actions when traversing through a backup folder.\n" \
+                    "Note this option only affects if the current file is one of the Save Versions.\n" \
+                    "The main file is always protected.",
+        items=[
+            ("IGNORE", "Ignore", "Changes are ignored"),
+            ("WARN", "Warn", "User is warned about changes"),
         ],
     )
 
@@ -254,14 +264,16 @@ class VK_PT_CBF_SaveVersionPreferences(bpy.types.AddonPreferences):
 
     def draw(self, context):
         layout = self.layout
-        checksums = context.scene.checksums
 
         layout.prop(self, "save_versions")
         layout.separator()
         layout.prop(self, "backup_folder_name")
 
         layout.separator()
-        layout.prop(checksums, "check_sum")
+        layout.prop(context.scene.multichoices, "check_sum")
+
+        layout.separator()
+        layout.prop(context.scene.multichoices, "guard_backup")
 
         layout.separator()
         row = layout.row()

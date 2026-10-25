@@ -1,3 +1,6 @@
+import bpy
+from . ui_functions import prefs_object
+from . utils_operators import return_init
 import os
 import re
 import shutil
@@ -6,7 +9,6 @@ import typing
 from pathlib import Path
 from enum import Enum
 from glob import glob, iglob
-from . ui_functions import prefs_object
 
 
 def get_file_hash(file_path: str) -> str:
@@ -152,6 +154,18 @@ def is_main_file(inits) -> bool:
     if p.suffix != ".blend":
         return False
     return True
+
+
+#  -> tuple[set, str, set]
+def need_save_current_session() -> bool:
+    if not bpy.data.is_dirty:
+        return False
+    inits = return_init()
+    if is_main_file(inits):
+        return True
+    if bpy.context.scene.multichoices.guard_backup == "WARN":
+        return True
+    return False
 
 
 class FileValidator:

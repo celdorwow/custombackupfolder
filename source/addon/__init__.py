@@ -19,7 +19,7 @@ classes = (
     op_maintain.VK_OT_CBF_CleanUpAllFiles,
     op_maintain.VK_OT_FixIntegrity,
     op_maintain.VK_OT_CBF_ListOrphans,
-    op_ui.VK_ChecksumProperties,
+    op_ui.VK_MultichoiceProperties,
     op_ui.VK_EU_CBF_OpenPreferences,
     op_ui.VK_PT_CBF_SaveVersionPreferences,
     op_ui.VK_PT_CBF_SidePanel,
@@ -38,7 +38,7 @@ def register():
         bpy.app.handlers.save_post.append(handles.move_blend_save_versions)
     ui_functions.process_buildin_save_versions(init=True)
     bpy.types.VIEW3D_MT_editor_menus.append(ui_functions.vk_cbf_define_prev_next_popover)
-    bpy.types.Scene.checksums = PointerProperty(type=op_ui.VK_ChecksumProperties)
+    bpy.types.Scene.multichoices = PointerProperty(type=op_ui.VK_MultichoiceProperties)
     bpy.types.Scene.vk_cbf_prev_exists = BoolProperty(default=False)
     bpy.types.Scene.vk_cbf_next_exists = BoolProperty(default=False)
     bpy.types.Scene.vk_cbf_path_name = StringProperty(subtype="FILE_PATH")
@@ -48,7 +48,7 @@ def unregister():
     del bpy.types.Scene.vk_cbf_path_name
     del bpy.types.Scene.vk_cbf_next_exists
     del bpy.types.Scene.vk_cbf_prev_exists
-    del bpy.types.Scene.checksums
+    del bpy.types.Scene.multichoices
     bpy.types.VIEW3D_MT_editor_menus.remove(ui_functions.vk_cbf_define_prev_next_popover)
     ui_functions.process_buildin_save_versions(init=False)
     if handles.move_blend_save_versions in bpy.app.handlers.save_post:

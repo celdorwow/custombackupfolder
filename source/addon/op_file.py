@@ -4,6 +4,9 @@ import os
 from bpy.props import StringProperty
 from pathlib import Path
 from glob import glob
+
+from .op_ui import VK_EU_CBF_OpenPreferences
+from .ui_functions import prefs_object
 from . utils_operators import return_init
 from . utils_file import (
     get_all_save_versions,
@@ -11,6 +14,7 @@ from . utils_file import (
     rename_copies,
     move_copies,
     is_main_file,
+    need_save_current_session,
 )
 
 
@@ -165,13 +169,6 @@ class VK_EU_CBF_OpenAllFiles(bpy.types.Operator, bpy_extras.io_utils.ImportHelpe
         inits = return_init()
         return inits is not None
 
-    def execute(self, context):
-        if bpy.data.is_dirty:
-            self.report({'WARNING'}, "Unsaved session. Please save your progress")
-            return {'CANCELLED'}
-        bpy.ops.wm.open_mainfile(filepath=self.filepath)
-        return {'FINISHED'}
-
     def invoke(self, context, event):
         inits = return_init()
         if not inits:
@@ -181,6 +178,13 @@ class VK_EU_CBF_OpenAllFiles(bpy.types.Operator, bpy_extras.io_utils.ImportHelpe
         self.filepath = backup_dir + os.sep
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
+
+    def execute(self, context):
+        if need_save_current_session():
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
+            return {'CANCELLED'}
+        bpy.ops.wm.open_mainfile(filepath=self.filepath)
+        return {'FINISHED'}
 
 
 class VK_OT_CBF_OpenPrevious(bpy.types.Operator):
@@ -227,11 +231,11 @@ class VK_OT_CBF_OpenPrevious(bpy.types.Operator):
 
     def execute(self, context):
         scene = context.scene
+        if need_save_current_session():
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
+            return {'CANCELLED'}
         if not scene.vk_cbf_prev_exists:
             self.report({'WARNING'}, "The previous Save Version does not exist")
-            return {'CANCELLED'}
-        if bpy.data.is_dirty:
-            self.report({'WARNING'}, "Unsaved session. Please save your progress")
             return {'CANCELLED'}
         bpy.ops.wm.open_mainfile(filepath=scene.vk_cbf_path_name)
         return {'FINISHED'}
@@ -279,11 +283,11 @@ class VK_OT_CBF_OpenNext(bpy.types.Operator):
 
     def execute(self, context):
         scene = context.scene
+        if need_save_current_session():
+            self.report({'WARNING'}, "Unsaved session. Please save your progress")
+            return {'CANCELLED'}
         if not scene.vk_cbf_next_exists:
             self.report({'WARNING'}, "The next Save Version does not exist")
-            return {'CANCELLED'}
-        if bpy.data.is_dirty:
-            self.report({'WARNING'}, "Unsaved session. Please save your progress")
             return {'CANCELLED'}
         bpy.ops.wm.open_mainfile(filepath=scene.vk_cbf_path_name)
         return {'FINISHED'}
