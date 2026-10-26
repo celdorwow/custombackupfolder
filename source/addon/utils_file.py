@@ -163,7 +163,8 @@ def need_save_current_session() -> bool:
     inits = return_init()
     if is_main_file(inits):
         return True
-    if bpy.context.scene.multichoices.guard_backup == "WARN":
+    prefs = prefs_object()
+    if prefs.guard_backup == "ENFORCE":
         return True
     return False
 

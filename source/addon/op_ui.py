@@ -1,32 +1,8 @@
 import bpy
-from bpy.props import IntProperty, BoolProperty, StringProperty, EnumProperty
+from bpy.props import IntProperty, BoolProperty, StringProperty, EnumProperty, PointerProperty
 from . utils_operators import update_on_pause
 from .. import __package__ as base_package
 from .. import ADDON_NAME
-
-
-class VK_MultichoiceProperties(bpy.types.PropertyGroup):
-    check_sum: EnumProperty(
-        name="Verification method",
-        description="Select a backup verification method\n" \
-                    "Any hash-related algorithm will take longer on save",
-        items=[
-            ("FILESIZE", "File Size", ""),
-            ("MD5", "Hash File MD5", ""),
-            ("SHA1", "Hash File SHA1", ""),
-        ],
-    )
-
-    guard_backup: EnumProperty(
-        name="Guard backup",
-        description="This option afect Blender actions when traversing through a backup folder.\n" \
-                    "Note this option only affects if the current file is one of the Save Versions.\n" \
-                    "The main file is always protected.",
-        items=[
-            ("IGNORE", "Ignore", "Changes are ignored"),
-            ("WARN", "Warn", "User is warned about changes"),
-        ],
-    )
 
 
 class VK_EU_CBF_OpenPreferences(bpy.types.Operator):
@@ -240,6 +216,27 @@ class VK_PT_CBF_SaveVersionPreferences(bpy.types.AddonPreferences):
         max=999,
     )
 
+    check_sum: EnumProperty(
+        name="Verification method",
+        description="Select a backup verification method\n" \
+                    "Any hash-related algorithm will take longer on save",
+        items=[
+            ("FILESIZE", "File Size", ""),
+            ("MD5", "Hash File MD5", ""),
+            ("SHA1", "Hash File SHA1", ""),
+        ],
+    )
+
+    guard_backup: EnumProperty(
+        name="Guard backups",
+        description="Controls Blender behaviour if changes in the current Save Version could be lost after\n" \
+                    "closing the file. Note! Regardless of this option, the main file is always protected.",
+        items=[
+            ("IGNORE", "Ignore", "Ignore changes"),
+            ("ENFORCE", "Enforce", "Enforce checking against changes"),
+        ],
+    )
+
     is_save_versions_changed: BoolProperty(
         name="Is Save Versions Changed",
         default=False,
@@ -270,10 +267,10 @@ class VK_PT_CBF_SaveVersionPreferences(bpy.types.AddonPreferences):
         layout.prop(self, "backup_folder_name")
 
         layout.separator()
-        layout.prop(context.scene.multichoices, "check_sum")
+        layout.prop(self, "check_sum")
 
         layout.separator()
-        layout.prop(context.scene.multichoices, "guard_backup")
+        layout.prop(self, "guard_backup")
 
         layout.separator()
         row = layout.row()

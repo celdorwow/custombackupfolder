@@ -25,11 +25,9 @@ def calculate_checksum(_) -> None:
     if prefs.is_on_pause:
         return None
 
-    wm = bpy.types.WindowManager
-    check_sum = bpy.context.scene.multichoices.check_sum
-
     # Save current file validator
-    wm.fileValidator = FileValidator(blend_path, check_sum)
+    wm = bpy.types.WindowManager
+    wm.fileValidator = FileValidator(blend_path, prefs.check_sum)
 
 
 @persistent
