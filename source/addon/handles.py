@@ -1,11 +1,12 @@
 import bpy
 import os
+from pathlib import Path
 from bpy.app.handlers import persistent
 from . op_file import VK_OT_CBF_OpenPrevious, VK_OT_CBF_OpenNext
 from . op_report import report
 from . ui_functions import prefs_object
 from . utils_maintain import clean_backup_folder
-from . utils_file import FileValidator, make_copies
+from . utils_file import FileValidator, make_copies, is_main_file
 from . utils_operators import return_init
 
 
@@ -13,6 +14,10 @@ from . utils_operators import return_init
 def post_load_checks(_):
     VK_OT_CBF_OpenPrevious.set_previous()
     VK_OT_CBF_OpenNext.set_next()
+    inits = return_init()
+    if inits:
+        prefs = prefs_object()
+        prefs.is_main_file = is_main_file(inits)
 
 
 @persistent
@@ -38,6 +43,12 @@ def move_blend_save_versions(_) -> None:
 
     prefs = prefs_object()
     if prefs.is_on_pause:
+        return None
+
+    if not prefs.is_main_file:
+        base_name, src_dir, _ = inits
+        p = Path(src_dir).joinpath(f"{base_name}1")
+        p.unlink(missing_ok=True)
         return None
 
     wm = bpy.types.WindowManager

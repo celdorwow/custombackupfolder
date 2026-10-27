@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "custombackupfolder"
-version = "0.1.2"
+version = "0.1.4"
 name = "Custom Backup Folder"
 type = "add-on"
 tagline = "A few additional tools for better Save Version management"
@@ -10,4 +10,3 @@ tags = ["System"]
 maintainer = "Celdor"
 website = "https://projects.blender.org/FrankWE/custombackupfolder.git"
 license = ["SPDX:GPL-3.0-or-later"]
-

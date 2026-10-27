@@ -1,6 +1,7 @@
 import bpy
 from bpy.props import IntProperty, BoolProperty, StringProperty, EnumProperty, PointerProperty
 from . utils_operators import update_on_pause
+from . ui_functions import prefs_object
 from .. import __package__ as base_package
 from .. import ADDON_NAME
 
@@ -256,6 +257,11 @@ class VK_PT_CBF_SaveVersionPreferences(bpy.types.AddonPreferences):
 
     file_size: IntProperty(
         default=0,
+        options={'HIDDEN'},
+    )
+
+    is_main_file: BoolProperty(
+        default=False,
         options={'HIDDEN'},
     )
 
