@@ -145,9 +145,12 @@ class VK_PT_CBF_Popover(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+        layout.use_property_split = False
+        layout.use_property_decorate = False
         factor = 0.7
 
         box = layout.box()
+
         col = box.column()
         row = col.row(align=True)
         row.label(text="", icon="TRIA_LEFT")
@@ -155,13 +158,20 @@ class VK_PT_CBF_Popover(bpy.types.Panel):
         row.operator("vk_cbf.open_next", text="Next")
         row.label(text="", icon="TRIA_RIGHT")
         box.row()
+
         c = box.column()
         row = c.row()
         split = row.split(factor=factor)
-        c = split.column()
-        c.label(text="Search for backups")
-        c = split.column()
-        c.operator('vk_cbf.open_filebrowser_all', text="Browse")
+        col = split.column()
+        col.label(text="Navigate to Backup")
+        col = split.column()
+        col.operator('vk_cbf.open_filebrowser_all', text="Browse")
+
+        box = layout.box()
+        col = box.column()
+        col.label(text="Guard backups:")
+        row = col.row(align=True)
+        row.prop(prefs_object(), "guard_backup", expand=True)
 
         box = layout.box()
         box.label(text="Reports", icon='INFO')
